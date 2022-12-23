@@ -63,7 +63,7 @@ while($row = mysqli_fetch_assoc($hasil)){
                   <td><?= $row['tanggal_unggah'] ?></td>
                   <td>
                     <div class="d-flex gap-2">
-                      <button class="btn btn-sm btn-success">Lihat</button>
+                      <a href="detail.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-success">Lihat</a>
                       <a href="edit.php?id=<?= $row['id']; ?>" class="btn btn-sm btn-info">Edit</a>
                       <button class="btn btn-sm btn-danger">Hapus</button>
                     </div>
