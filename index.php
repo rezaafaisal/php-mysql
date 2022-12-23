@@ -1,5 +1,6 @@
 <?php
-$koneksi = mysqli_connect('localhost', 'root', 'Tenin@123', 'todo_app');
+
+require "koneksi.php";
 
 $query = "SELECT * FROM catatan";
 
@@ -10,8 +11,6 @@ $data = array();
 while($row = mysqli_fetch_assoc($hasil)){
     array_push($data, $row);
 }
-
-
 ?>
 
 <!DOCTYPE html>

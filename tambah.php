@@ -1,10 +1,13 @@
 <?php 
+    require "koneksi.php";
      if (isset($_POST['submit'])) {
         $judul = $_POST['judul_catatan'];
         $catatan = $_POST['catatan'];
 
-        $query = "INSERT INTO catatan (judul, catatan_lengkap) VALUES ('$judul', '$catatan')"; 
-        mysqli_query(mysqli_connect('localhost', 'root', 'Tenin@123', 'todo_app'), $query);
+        if($judul != null && $catatan != null){
+            $query = "INSERT INTO catatan (judul, catatan_lengkap) VALUES ('$judul', '$catatan')"; 
+            $query_result = mysqli_query($koneksi, $query);
+        }
 
      }
 ?>
@@ -22,6 +25,34 @@
 <body>
   <div class="container">
     <div class="row justify-content-center mt-5">
+        <div class="col-12">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 col-lg-6">
+                    <?php 
+                        if(isset($_POST['submit'])){
+                            if($judul != null && $catatan != null){
+                                if(mysqli_affected_rows($koneksi) > 0){
+                                echo "
+                                    <div class='alert alert-success text-center'>
+                                        Data Berhasil Ditambah
+                                    </div>
+                                ";
+                                }
+                            }
+
+                            else{
+                                echo "
+                                    <div class='alert alert-danger text-center'>
+                                        Data tidak boleh kosong, silahkan isi terlebih dahulu!!
+                                    </div>
+                                ";
+                            }
+                        }
+                    ?>
+                    
+                </div>
+            </div>
+        </div>
       <div class="col-12 col-md-8 col-lg-6">
         <div class="card">
           <div class="card-header">
