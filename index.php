@@ -64,7 +64,7 @@ while($row = mysqli_fetch_assoc($hasil)){
                   <td>
                     <div class="d-flex gap-2">
                       <button class="btn btn-sm btn-success">Lihat</button>
-                      <button class="btn btn-sm btn-info">Edit</button>
+                      <a href="edit.php?id=<?= $row['id']; ?>" class="btn btn-sm btn-info">Edit</a>
                       <button class="btn btn-sm btn-danger">Hapus</button>
                     </div>
                   </td>

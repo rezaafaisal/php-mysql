@@ -1,11 +1,25 @@
 <?php 
     require "koneksi.php";
+    
+    // cek apakah ada id yang dikirim
+    if(isset($_GET['id'])){
+        $id = $_GET['id'];
+
+        // query untuk update data
+        $query_select = "SELECT * FROM catatan WHERE id = '$id'";
+        // eksekusi query
+        $result = mysqli_query($koneksi, $query_select);
+        // menyinmpan hasil query (datanya) dalam $data
+        $data = mysqli_fetch_assoc($result);
+    }
+
+
      if (isset($_POST['submit'])) {
         $judul = $_POST['judul_catatan'];
         $catatan = $_POST['catatan'];
 
         if($judul != null && $catatan != null){
-            $query = "INSERT INTO catatan (judul, catatan_lengkap) VALUES ('$judul', '$catatan')"; 
+            $query = "UPDATE catatan SET judul='$judul', catatan_lengkap='$catatan' WHERE id = $id"; 
             $query_result = mysqli_query($koneksi, $query);
         }
      }
@@ -32,9 +46,9 @@
                             if($judul != null && $catatan != null){
                                 if(mysqli_affected_rows($koneksi) > 0){
                                 echo "
-                                    <script>
-                                        alert('Data berhasil ditambah!');
-                                    </script>
+                                    <div class='alert alert-success text-center'>
+                                        Data Berhasil Diedit
+                                    </div>
                                 ";
                                 }
                             }
@@ -50,14 +64,13 @@
                     ?>
                     
                 </div>
-                
             </div>
         </div>
       <div class="col-12 col-md-8 col-lg-6">
         <div class="card">
           <div class="card-header">
             <div class="d-flex justify-content-between">
-              <h5>Tambah Catatan</h5>
+              <h5>Update Catatan</h5>
               <a href="index.php" class="btn btn-primary">Kembali</a>
             </div>
           </div>
@@ -66,12 +79,12 @@
               <div class="mb-3">
                 <label class="form-label" for="judul_catatan">Judul Catatan</label>
                 <input type="text" name="judul_catatan" id="judul_catatan" class="form-control"
-                  placeholder="Masukkan Judul Catatan">
+                  placeholder="Masukkan Judul Catatan" value="<?= $data['judul'] ?? '' ?>">
               </div>
               <div class="mb-3">
                 <label for="catatan" class="form-label">Catatan</label>
                 <textarea name="catatan" id="catatan" rows="5" class="form-control"
-                  placeholder="Ketikkan Catatan Anda"></textarea>
+                  placeholder="Ketikkan Catatan Anda"><?= $data['catatan_lengkap'] ?? '' ?></textarea>
               </div>
               <div class="mb-3">
                 <button name="submit" class="btn btn-success">Simpan</button>
