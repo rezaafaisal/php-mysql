@@ -1,13 +1,7 @@
 <?php 
-    require "koneksi.php";
+    require "fungsi.php";
      if (isset($_POST['submit'])) {
-        $judul = $_POST['judul_catatan'];
-        $catatan = $_POST['catatan'];
-
-        if($judul != null && $catatan != null){
-            $query = "INSERT INTO catatan (judul, catatan_lengkap) VALUES ('$judul', '$catatan')"; 
-            $query_result = mysqli_query($koneksi, $query);
-        }
+        insert_note($_POST);
      }
 ?>
 <!DOCTYPE html>
@@ -29,7 +23,7 @@
                 <div class="col-12 col-md-8 col-lg-6">
                     <?php 
                         if(isset($_POST['submit'])){
-                            if($judul != null && $catatan != null){
+                            if($_POST['judul_catatan'] != null && $_POST['catatan'] != null){
                                 if(mysqli_affected_rows($koneksi) > 0){
                                 echo "
                                     <script>

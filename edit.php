@@ -1,27 +1,13 @@
 <?php 
-    require "koneksi.php";
-    
+    require "fungsi.php";
     // cek apakah ada id yang dikirim
     if(isset($_GET['id'])){
-        $id = $_GET['id'];
-
-        // query untuk update data
-        $query_select = "SELECT * FROM catatan WHERE id = '$id'";
-        // eksekusi query
-        $result = mysqli_query($koneksi, $query_select);
-        // menyinmpan hasil query (datanya) dalam $data
-        $data = mysqli_fetch_assoc($result);
+        $data = show_update_note($_GET['id']);
     }
 
 
      if (isset($_POST['submit'])) {
-        $judul = $_POST['judul_catatan'];
-        $catatan = $_POST['catatan'];
-
-        if($judul != null && $catatan != null){
-            $query = "UPDATE catatan SET judul='$judul', catatan_lengkap='$catatan' WHERE id = $id"; 
-            $query_result = mysqli_query($koneksi, $query);
-        }
+        update_note($_POST);
      }
 ?>
 <!DOCTYPE html>
@@ -43,7 +29,7 @@
                 <div class="col-12 col-md-8 col-lg-6">
                     <?php 
                         if(isset($_POST['submit'])){
-                            if($judul != null && $catatan != null){
+                            if($_POST['judul_catatan'] != null && $_POST['catatan'] != null){
                                 if(mysqli_affected_rows($koneksi) > 0){
                                 echo "
                                     <div class='alert alert-success text-center'>
@@ -76,6 +62,7 @@
           </div>
           <div class="card-body">
             <form action="" method="POST">
+              <input type="hidden" name="id" value="<?= $_GET['id'] ?>">
               <div class="mb-3">
                 <label class="form-label" for="judul_catatan">Judul Catatan</label>
                 <input type="text" name="judul_catatan" id="judul_catatan" class="form-control"

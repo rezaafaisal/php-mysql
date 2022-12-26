@@ -1,12 +1,7 @@
 <?php
-
-require "koneksi.php";
-
+require "fungsi.php";
 if(isset($_GET['id'])){
-    $id = $_GET['id'];
-    $query = "SELECT * FROM catatan WHERE id = '$id'";
-    $hasil = mysqli_query($koneksi, $query);
-    $data = mysqli_fetch_assoc($hasil);
+    $data = show_one($_GET['id']);
 }
 ?>
 

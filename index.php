@@ -1,18 +1,7 @@
 <?php
 
-require "koneksi.php";
-
-$query = "SELECT * FROM catatan";
-
-$hasil = mysqli_query($koneksi, $query);
-
-$data = array();
-
-while($row = mysqli_fetch_assoc($hasil)){
-    array_push($data, $row);
-}
-
-
+require "fungsi.php";
+$data = show_all();
 
 ?>
 
@@ -37,6 +26,37 @@ while($row = mysqli_fetch_assoc($hasil)){
         Swal.fire(
           'Terhapus!',
           'Catatan telah dihapus',
+          'success'
+        ).then((e) => {
+          if(e.isConfirmed){
+            window.location.href='index.php'
+          }
+        });
+      </script>
+      ";
+    } 
+
+    if(isset($_GET['sukses_tambah'])){
+      echo "
+      <script>
+        Swal.fire(
+          'Berhasil!',
+          'Catatan telah ditambah',
+          'success'
+        ).then((e) => {
+          if(e.isConfirmed){
+            window.location.href='index.php'
+          }
+        });
+      </script>
+      ";
+    } 
+    if(isset($_GET['sukses_update'])){
+      echo "
+      <script>
+        Swal.fire(
+          'Berhasil!',
+          'Catatan telah diupdate',
           'success'
         ).then((e) => {
           if(e.isConfirmed){
@@ -99,7 +119,6 @@ while($row = mysqli_fetch_assoc($hasil)){
             </table>
           </div>
         </div>
-
       </div>
     </div>
   </div>
