@@ -11,6 +11,9 @@ $data = array();
 while($row = mysqli_fetch_assoc($hasil)){
     array_push($data, $row);
 }
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -22,9 +25,28 @@ while($row = mysqli_fetch_assoc($hasil)){
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aplikasi Catatan</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
+  
+  <?php 
+    if(isset($_GET['sukses_hapus'])){
+      echo "
+      <script>
+        Swal.fire(
+          'Terhapus!',
+          'Catatan telah dihapus',
+          'success'
+        ).then((e) => {
+          if(e.isConfirmed){
+            window.location.href='index.php'
+          }
+        });
+      </script>
+      ";
+    } 
+  ?>
   <div class="container">
     <div class="row justify-content-center">
       <!-- <div class="col-8">
@@ -63,9 +85,12 @@ while($row = mysqli_fetch_assoc($hasil)){
                   <td><?= $row['tanggal_unggah'] ?></td>
                   <td>
                     <div class="d-flex gap-2">
-                      <a href="detail.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-success">Lihat</a>
-                      <a href="edit.php?id=<?= $row['id']; ?>" class="btn btn-sm btn-info">Edit</a>
-                      <button class="btn btn-sm btn-danger">Hapus</button>
+                      <?php 
+                        $id = $row['id']; 
+                      ?>
+                      <a href="detail.php?id=<?= $id ?>" class="btn btn-sm btn-success">Lihat</a>
+                      <a href="edit.php?id=<?= $id; ?>" class="btn btn-sm btn-info">Edit</a>
+                      <button onclick="konfirmasiHapus('<?= $id ?>')" class="delete btn btn-sm btn-danger">Hapus</button>
                     </div>
                   </td>
                 </tr>
@@ -78,7 +103,33 @@ while($row = mysqli_fetch_assoc($hasil)){
       </div>
     </div>
   </div>
+
+  <form id="hapus_catatan" action="hapus.php" method="POST">
+      <input id="form_delete_id" type="hidden" name="id_hapus" value="">
+  </form>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function konfirmasiHapus(id){
+      const formDelete = document.getElementById('hapus_catatan');
+      const inputDelete = document.getElementById('form_delete_id');
+      inputDelete.setAttribute("value", id);
+        Swal.fire({
+          title: 'Anda yakin?',
+          text: "Catatan akan dihapus secara permanen!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          cancelButtonText: 'Batal',
+          confirmButtonText: 'Hapus!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            formDelete.submit();
+        }
+    })
+    }
+  </script>
 </body>
 
 </html>
