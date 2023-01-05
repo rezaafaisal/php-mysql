@@ -8,6 +8,9 @@
      if (isset($_POST['submit'])) {
         update_note($_POST);
      }
+
+
+     
 ?>
 <!DOCTYPE html>
 <html lang="en">
