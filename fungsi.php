@@ -64,4 +64,8 @@
     }
    }
 
+   function delete_note(){
+    
+   }
+
 ?>
