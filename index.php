@@ -13,8 +13,9 @@ $data = show_all();
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aplikasi Catatan</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <?php 
+     include "partials/asset_header.php"
+  ?>
 </head>
 
 <body>
@@ -86,10 +87,11 @@ $data = show_all();
             </div>
           </div>
           <div class="card-body">
-            <table class="table table-bordered">
+            <table class="table table-bordered" id="datatable">
               <thead>
                 <tr>
                   <th class="text-center">No</th>
+                  <th class="text-center">Thumbnail</th>
                   <th class="text-center">Judul Catatan</th>
                   <th class="text-center">Catatan Lengkap</th>
                   <th class="text-center">Tanggal Unggah</th>
@@ -100,6 +102,7 @@ $data = show_all();
                 <?php foreach($data as $i => $row) : ?>
                 <tr>
                   <td><?= $i+1 ?></td>
+                  <td><img src="img/<?= ($row['gambar'] != null) ? $row['gambar'] : 'images.jpeg' ?>" alt="" height="50px" width="50px"></td>
                   <td><?= $row['judul'] ?></td>
                   <td><?= substr($row['catatan_lengkap'], 0, 200) ?></td>
                   <td><?= $row['tanggal_unggah'] ?></td>
@@ -127,8 +130,11 @@ $data = show_all();
       <input id="form_delete_id" type="hidden" name="id_hapus" value="">
   </form>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  <?php 
+     include "partials/asset_footer.php"
+  ?>
   <script>
+    $('#datatable').DataTable();
     function konfirmasiHapus(id){
       const formDelete = document.getElementById('hapus_catatan');
       const inputDelete = document.getElementById('form_delete_id');

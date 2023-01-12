@@ -1,9 +1,13 @@
 <?php 
     require "fungsi.php";
      if (isset($_POST['submit'])) {
-        insert_note($_POST);
+        insert_note($_POST, $_FILES);
      }
+
+
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,8 +26,15 @@
             <div class="row justify-content-center">
                 <div class="col-12 col-md-8 col-lg-6">
                     <?php 
+                          if(isset($_GET['image_error'])){
+                            echo "
+                                    <div class='alert alert-danger text-center'>
+                                        Format gambar tidak sesuai!!
+                                    </div>
+                                ";
+                          }
                         if(isset($_POST['submit'])){
-                            if($_POST['judul_catatan'] != null && $_POST['catatan'] != null){
+                          if($_POST['judul_catatan'] != null && $_POST['catatan'] != null){
                                 if(mysqli_affected_rows($koneksi) > 0){
                                 echo "
                                     <script>
@@ -56,11 +67,15 @@
             </div>
           </div>
           <div class="card-body">
-            <form action="" method="POST">
+            <form action="" method="POST" enctype="multipart/form-data">
               <div class="mb-3">
                 <label class="form-label" for="judul_catatan">Judul Catatan</label>
                 <input type="text" name="judul_catatan" id="judul_catatan" class="form-control"
                   placeholder="Masukkan Judul Catatan">
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="gambar_catatan">Thumbnail</label>
+                <input type="file" name="gambar_catatan" id="gambar_catatan" class="form-control">
               </div>
               <div class="mb-3">
                 <label for="catatan" class="form-label">Catatan</label>
